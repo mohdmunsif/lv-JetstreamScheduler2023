@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entity extends Model
 {
-    use HasFactory;
-
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +16,7 @@ class Entity extends Model
      * @var string[]
      */
     protected $fillable = [
-        'name', 'user_id', 'team_id',
+        'name', 'user_id', 'team_id','slug','is_active','position'
     ];
 
     /**
@@ -25,11 +25,14 @@ class Entity extends Model
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+
     ];
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
 
     public function groups()
     {
@@ -44,6 +47,6 @@ class Entity extends Model
     public function scheduledays()
     {
         return $this->hasMany(Schedule::class, 'user_id');
-    }    
-    
+    }
+
 }

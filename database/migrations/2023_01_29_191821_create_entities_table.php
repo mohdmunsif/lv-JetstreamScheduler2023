@@ -15,15 +15,20 @@ return new class extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');   
+            $table->string('name');
+
+            $table->integer('position');
+            $table->string('slug')->nullable();
+            $table->boolean('is_active')->default(true);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
 
             $table->timestamps();
- 
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');            
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
