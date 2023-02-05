@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Categories') }}
+            {{ __('Groups') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <x-button wire:click.prevent="openModal" class="mb-4">
-                        Add Category
+                        Add Groups
                     </x-button>
 
                     <div class="overflow-hidden overflow-x-auto mb-4 min-w-full align-middle sm:rounded-md">
@@ -38,8 +38,8 @@
                             </thead>
 
                             <tbody wire:sortable="updateOrder" class="bg-white divide-y divide-gray-200 divide-solid">
-                                @foreach ($categories as $category)
-                                    <tr class="bg-white" wire:sortable.item="{{ $category->id }}"
+                                @foreach ($groups as $group)
+                                    <tr class="bg-white" wire:sortable.item="{{ $group->id }}"
                                         wire:key="{{ $loop->index }}">
                                         <td class="px-6">
                                             <button wire:sortable.handle>
@@ -54,58 +54,58 @@
                                         </td>
                                         {{-- Inline Edit Start --}}
                                         <td
-                                            class="@if ($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            <input wire:model="category.name" id="category.name"
+                                            class="@if ($editedGroupId !== $group->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <input wire:model="group.name" id="group.name"
                                                 class="py-2 pr-4 pl-2 mt-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
-                                            @error('category.name')
+                                            @error('group.name')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </td>
                                         <td
-                                            class="@if ($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            <input wire:model="category.slug" id="category.slug"
+                                            class="@if ($editedGroupId !== $group->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <input wire:model="group.slug" id="group.slug"
                                                 class="py-2 pr-4 pl-2 mt-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
-                                            @error('category.slug')
+                                            @error('group.slug')
                                                 <span class="text-sm text-red-500">{{ $message }}</span>
                                             @enderror
                                         </td>
                                         {{-- Inline Edit End --}}
 
-                                        {{-- Show Category Name/Slug Start --}}
+                                        {{-- Show Group Name/Slug Start --}}
                                         <td
-                                            class="@if ($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            {{ $category->name }}
+                                            class="@if ($editedGroupId === $group->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            {{ $group->name }}
                                         </td>
                                         <td
-                                            class="@if ($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            {{ $category->slug }}
+                                            class="@if ($editedGroupId === $group->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            {{ $group->slug }}
                                         </td>
-                                        {{-- Show Category Name/Slug End --}}
+                                        {{-- Show Group Name/Slug End --}}
 
                                         <td class="px-6">
                                             <div
                                                 class="inline-block relative mr-2 w-10 align-middle transition duration-200 ease-in select-none">
-                                                <input wire:model="active.{{ $category->id }}"
-                                                    wire:click="toggleIsActive({{ $category->id }})" type="checkbox"
-                                                    name="toggle" id="{{ $loop->index . $category->id }}"
+                                                <input wire:model="active.{{ $group->id }}"
+                                                    wire:click="toggleIsActive({{ $group->id }})" type="checkbox"
+                                                    name="toggle" id="{{ $loop->index . $group->id }}"
                                                     class="block absolute w-6 h-6 bg-white rounded-full border-4 appearance-none cursor-pointer focus:outline-none toggle-checkbox" />
-                                                <label for="{{ $loop->index . $category->id }}"
+                                                <label for="{{ $loop->index . $group->id }}"
                                                     class="block overflow-hidden h-6 bg-gray-300 rounded-full cursor-pointer toggle-label"></label>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            @if ($editedCategoryId === $category->id)
+                                            @if ($editedGroupId === $group->id)
                                                 <x-button wire:click="save">
                                                     Save
                                                 </x-button>
-                                                <x-button wire:click="cancelCategoryEdit">
+                                                <x-button wire:click="cancelGroupEdit">
                                                     Cancel
                                                 </x-button>
                                             @else
-                                                <x-button wire:click="editCategory({{ $category->id }})">
+                                                <x-button wire:click="editGroup({{ $group->id }})">
                                                     Edit
                                                 </x-button>
-                                                <button wire:click="deleteConfirm('delete', {{ $category->id }})"
+                                                <button wire:click="deleteConfirm('delete', {{ $group->id }})"
                                                     class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
                                                     Delete
                                                 </button>
@@ -130,7 +130,7 @@
             <form wire:submit.prevent="save" class="w-full">
                 <div class="flex flex-col items-start p-4">
                     <div class="flex items-center pb-4 mb-4 w-full border-b">
-                        <div class="text-lg font-medium text-gray-900">Create Category</div>
+                        <div class="text-lg font-medium text-gray-900">Create Group</div>
                         <svg wire:click.prevent="$set('showModal', false)"
                             class="ml-auto w-6 h-6 text-gray-700 cursor-pointer fill-current"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
@@ -139,22 +139,22 @@
                         </svg>
                     </div>
                     <div class="mb-2 w-full">
-                        <label class="block text-sm font-medium text-gray-700" for="category.name">
+                        <label class="block text-sm font-medium text-gray-700" for="group.name">
                             Name
                         </label>
-                        <input wire:model="category.name" id="category.name"
+                        <input wire:model="group.name" id="group.name"
                             class="py-2 pr-4 pl-2 mt-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
-                        @error('category.name')
+                        @error('group.name')
                             <span class="text-sm text-red-500">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-2 w-full">
-                        <label class="block text-sm font-medium text-gray-700" for="category.slug">
+                        <label class="block text-sm font-medium text-gray-700" for="group.slug">
                             Slug
                         </label>
-                        <input wire:model="category.slug" id="category.slug"
+                        <input wire:model="group.slug" id="group.slug"
                             class="py-2 pr-4 pl-2 mt-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
-                        @error('category.slug')
+                        @error('group.slug')
                             <span class="text-sm text-red-500">{{ $message }}</span>
                         @enderror
                     </div>

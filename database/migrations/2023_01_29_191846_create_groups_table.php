@@ -15,9 +15,17 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('descr');
-            $table->string('long_descr');
+            $table->string('name');
+            $table->string('descr')->nullable();
+
+            $table->integer('position');
+            $table->string('slug')->nullable();
+            $table->boolean('is_active')->default(true);
+
+
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

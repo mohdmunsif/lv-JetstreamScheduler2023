@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Illuminate\Support\Facades\DB;
+
+
 class GroupSeeder extends Seeder
 {
     /**
@@ -14,6 +17,33 @@ class GroupSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('groups')->insert([
+            'name' => 'Consultant',
+           'descr' => 'First',
+           'position' => '1',
+           'slug' => 'consultant',
+           'is_active' => '1'
+        ]);
+        DB::table('groups')->insert([
+            'name' => 'Specialist',
+           'descr' => 'Second',
+           'position' => '2',
+           'slug' => 'specialist',
+           'is_active' => '1'
+        ]);
+        DB::table('groups')->insert([
+            'name' => 'MO',
+            'descr' => 'Third',
+           'position' => '3',
+           'slug' => 'mo',
+           'is_active' => '1'
+        ]);
+        DB::table('groups')->insert([
+            'name' => 'HO',
+           'descr' => 'Fourth',
+           'position' => '4',
+           'slug' => 'ho',
+           'is_active' => '1'
+        ]);
     }
 }

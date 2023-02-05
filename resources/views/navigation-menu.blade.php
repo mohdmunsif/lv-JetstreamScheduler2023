@@ -37,7 +37,7 @@
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ __('Manage:') }}
                                     </div>
-                                    <x-jet-dropdown-link href="{{ route('entities.index') }}">
+                                    <x-jet-dropdown-link href="{{ route('groups.index') }}">
                                         {{ __('Groups') }}
                                     </x-jet-dropdown-link>
                                     <x-jet-dropdown-link href="{{ route('entities.index') }}">
