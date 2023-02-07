@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Livewire\CategoriesList;
 use App\Http\Livewire\EntitiesList;
 use App\Http\Livewire\GroupsList;
+use App\Http\Livewire\EntityGroupList;
+use App\Http\Controllers\EntityGroupController;
 
 
 /*
@@ -37,6 +39,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('entities', EntitiesList::class)->name('entities.index');
     Route::get('groups', GroupsList::class)->name('groups.index');
+
+    Route::get('entitygroups', EntityGroupList::class)->name('entitygroups.index');
+    // Route::get('entitygroupsold', EntityGroupController::class)->name('entitygroupsold.index');
+    Route::resource('entitygroupsold', EntityGroupController::class);
 
     // Route::get('categories', CategoriesList::class)->name('categories.index');
 

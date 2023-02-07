@@ -43,7 +43,7 @@
                                     <x-jet-dropdown-link href="{{ route('entities.index') }}">
                                         {{ __('Members (Entites)') }}
                                     </x-jet-dropdown-link>
-                                    <x-jet-dropdown-link href="{{ route('entities.index') }}">
+                                    <x-jet-dropdown-link href="{{ route('entitygroupsold.index') }}">
                                         {{ __('Member-Group') }}
                                     </x-jet-dropdown-link>
 

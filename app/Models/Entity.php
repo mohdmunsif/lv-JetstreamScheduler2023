@@ -33,20 +33,25 @@ class Entity extends Model
         return $query->where('is_active', true);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users', 'entity_id', 'user_id')->withTimestamps();
+    }
+
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_users', 'user_id', 'group_id')->withTimestamps();
+        return $this->belongsToMany(Group::class, 'entity_groups', 'entity_id', 'group_id')->withTimestamps();
     }
 
     public function dayoff()
     {
-        return $this->hasMany(DayoffUser::class, 'user_id');
+        return $this->hasMany(DayoffUser::class, 'entity_id');
     }
 
     public function scheduledays()
     {
-        return $this->hasMany(Schedule::class, 'user_id');
+        return $this->hasMany(Schedule::class, 'entity_id');
     }
 
 }

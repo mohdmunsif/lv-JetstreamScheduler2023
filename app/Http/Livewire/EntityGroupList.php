@@ -4,45 +4,72 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Group;
+use App\Models\Entity;
+use App\Models\EntityGroup;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Illuminate\Support\Collection;
 use function view;
 
 
-class GroupsList extends Component
+class EntityGroupList extends Component
 {
     use WithPagination;
 
     public Group $group;
+    public Group $entity;
 
-    public Collection $groups;
+    // public Collection $entities;
+    // public Collection $grouplist;
 
     public array $active;
 
-    public int $editedGroupId = 0;
+    public int $editedEntityGroupId = 0;
 
     public bool $showModal = false;
 
     protected $listeners = ['delete'];
 
+
+    public $groupArray = [];
+
+
+    // public function mount() {
+
+    //     $entities = Entity::all();
+    //     $grouplist = Group::all();
+    // }
+
     public function render()
     {
+
+        $entities = Entity::all();
+        $grouplist = Group::all();
+        $entityGroups = EntityGroup::all();
+
+        // dd($grouplist->count() );
+
         $cats = Group::orderBy('position')->paginate(10);
         $links = $cats->links();
+        // $this->groups = collect($cats->items());
 
-        $this->groups = collect($cats->items());
+        // $this->active = $this->groups->mapWithKeys(
+        //     fn ($item) => [$item['id'] => (bool) $item['is_active']]
+        // )->toArray();
 
-        $this->active = $this->groups->mapWithKeys(
-            fn ($item) => [$item['id'] => (bool) $item['is_active']]
-        )->toArray();
-        // dd($this->active);
-        // dd($cats->items());
-        // dd($this->groups);
+        // dd($grouplist);
 
-        return view('livewire.groups-list', [
-            'links' => $links,
+        // dd(compact('grouplist'));
+
+        // return view('livewire.entity-group-list', compact('grouplist') );
+
+        return view('livewire.entity-group-list', [
+            'links' => $links,  'entities' => $entities,  'grouplist' => $grouplist, 'entityGroups' => $entityGroups,
         ]);
+
+        // return view('livewire.entity-group-list', [
+        //     'links' => $links,  compact('entities'), compact('grouplist'),
+        // ]);
     }
 
     public function openModal()
@@ -61,32 +88,32 @@ class GroupsList extends Component
     {
         $this->validate();
 
-        if ($this->editedGroupId === 0) {
+        if ($this->editedEntityGroupId === 0) {
             $this->group->position = Group::max('position') + 1;
         }
 
         $this->group->save();
 
-        $this->reset('showModal', 'editedGroupId');
+        $this->reset('showModal', 'editedEntityGroupId');
     }
 
-    public function toggleIsActive($groupId)
+    public function toggleIsActive($entityGroupId)
     {
-        Group::where('id', $groupId)->update([
-            'is_active' => $this->active[$groupId],
+        Group::where('id', $entityGroupId)->update([
+            'is_active' => $this->active[$entityGroupId],
         ]);
     }
 
-    public function editGroup($groupId)
+    public function editGroup($entityGroupId)
     {
-        $this->editedGroupId = $groupId;
+        $this->editedEntityGroupId = $entityGroupId;
 
-        $this->group = Group::find($groupId);
+        $this->group = Group::find($entityGroupId);
     }
 
     public function cancelGroupEdit()
     {
-        $this->reset('editedGroupId');
+        $this->reset('editedEntityGroupId');
     }
 
     public function deleteConfirm($method, $id = null)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEntityGroupRequest;
 use App\Http\Requests\UpdateEntityGroupRequest;
+use App\Models\Entity;
+use App\Models\Group;
 use App\Models\EntityGroup;
 
 class EntityGroupController extends Controller
@@ -15,7 +17,13 @@ class EntityGroupController extends Controller
      */
     public function index()
     {
-        //
+        return view(
+            'entitygroups.index',
+            [
+                'entities' => Entity::all(),
+                'grouplist' => Group::all(),
+            ]
+        );
     }
 
     /**
