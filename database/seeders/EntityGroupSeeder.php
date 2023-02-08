@@ -26,5 +26,10 @@ class EntityGroupSeeder extends Seeder
                 $groups->random(1)->pluck('id')
             );
         });
+
+        $thisEntity = Entity::find(2);
+
+        $thisEntity->groups()->sync([1, 2, 3]);
+
     }
 }
