@@ -38,7 +38,6 @@ class Entity extends Model
         return $this->belongsTo(User::class, 'users', 'entity_id', 'user_id')->withTimestamps();
     }
 
-
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'entity_groups', 'entity_id', 'group_id')->withTimestamps();

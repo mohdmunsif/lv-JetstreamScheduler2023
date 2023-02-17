@@ -36,7 +36,6 @@
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @foreach ($entities as $entity)
-                                                {{-- {{ $user }} --}}
                                                 @include('entitygroups/onerow', $entity)
                                             @endforeach
                                         </tbody>

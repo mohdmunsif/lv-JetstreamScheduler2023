@@ -44,9 +44,11 @@
                                         {{ __('Members (Entites)') }}
                                     </x-jet-dropdown-link>
                                     <x-jet-dropdown-link href="{{ route('entitygroupsold.index') }}">
+                                        {{ __('Member-Group-old') }}
+                                    </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link href="{{ route('entitygroups.index') }}">
                                         {{ __('Member-Group') }}
                                     </x-jet-dropdown-link>
-
                                     <div class="border-t border-gray-100"></div>
 
                                 </x-slot>
@@ -232,6 +234,27 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+
+            <div class="border-t border-gray-200"></div>
+
+            <!-- Team Settings -->
+            <div class="block px-4 py-2 text-xs text-gray-400">
+                {{ __('Setup. Manage:') }}
+            </div>
+
+            <x-jet-responsive-nav-link href="{{ route('groups.index') }}" :active="request()->routeIs('groups.index')">
+                {{ __('Groups') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('entities.index') }}" :active="request()->routeIs('entities.index')">
+                {{ __('Members (Entites)') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('entitygroupsold.index') }}" :active="request()->routeIs('entitygroupsold.index')">
+                {{ __('Member-Group-old') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('entitygroups.index') }}" :active="request()->routeIs('entitygroups.index')">
+                {{ __('Member-Group') }}
+            </x-jet-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->

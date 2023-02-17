@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('groups', GroupsList::class)->name('groups.index');
 
     Route::get('entitygroups', EntityGroupList::class)->name('entitygroups.index');
-    // Route::get('entitygroupsold', EntityGroupController::class)->name('entitygroupsold.index');
+
     Route::resource('entitygroupsold', EntityGroupController::class);
 
     // Route::get('categories', CategoriesList::class)->name('categories.index');

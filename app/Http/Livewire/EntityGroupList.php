@@ -22,6 +22,8 @@ class EntityGroupList extends Component
     // public Collection $entities;
     // public Collection $grouplist;
 
+
+
     public array $active;
 
     public int $editedEntityGroupId = 0;
@@ -30,8 +32,18 @@ class EntityGroupList extends Component
 
     protected $listeners = ['delete'];
 
-
     public $groupArray = [];
+
+    public array $entitygroup = [];
+
+/*
+   <x-input wire:model="data.{{ $item->id }}.name" type="text" />
+   <x-input wire:model="data.{{ $item->id }}.completed" type="checkbox" />
+
+$data = [
+   1 => ['name' => 'Name', 'completed' => 0],
+   2 => ['name' => 'Name 2', 'completed' => 1],
+]; */
 
 
     // public function mount() {
@@ -131,6 +143,7 @@ class EntityGroupList extends Component
     {
         Group::findOrFail($id)->delete();
     }
+
 
     public function updateOrder($list)
     {
