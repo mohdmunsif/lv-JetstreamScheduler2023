@@ -8,21 +8,15 @@ use App\Models\Entity;
 use App\Models\EntityGroup;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
-use Illuminate\Support\Collection;
 use function view;
+use Illuminate\Support\Facades\Log;
 
 
 class EntityGroupList extends Component
 {
     use WithPagination;
 
-    public Group $group;
-    public Group $entity;
-
-    // public Collection $entities;
-    // public Collection $grouplist;
-
-
+    public Entity $entity;
 
     public array $active;
 
@@ -32,56 +26,43 @@ class EntityGroupList extends Component
 
     protected $listeners = ['delete'];
 
-    public $groupArray = [];
+    public array $arr_entity_groups = [];
 
-    public array $entitygroup = [];
-
-/*
-   <x-input wire:model="data.{{ $item->id }}.name" type="text" />
-   <x-input wire:model="data.{{ $item->id }}.completed" type="checkbox" />
-
-$data = [
-   1 => ['name' => 'Name', 'completed' => 0],
-   2 => ['name' => 'Name 2', 'completed' => 1],
-]; */
+    public $entities;
+    public $grouplist;
+    public $entityGroups;
 
 
-    // public function mount() {
+    public function mount(Entity $entity)
+    {
+        $this->entity = $entity;
+        $this->entities = Entity::all();
+        $this->grouplist = Group::all();
+        $this->entityGroups = EntityGroup::all()->sortBy([['group_id', 'asc'],['entity_id', 'asc']]);
+        $setOfEntityIds = $this->entities->pluck('id')->toArray();
+        $setOfGroupIds = $this->grouplist->pluck('id')->toArray();
 
-    //     $entities = Entity::all();
-    //     $grouplist = Group::all();
-    // }
+        $this->arr_entity_groups = array_fill_keys($setOfEntityIds, array_fill_keys($setOfGroupIds, false));
+
+
+        foreach ($this->entityGroups as $singleEntityGroup) {
+            $this->arr_entity_groups[$singleEntityGroup->entity_id][$singleEntityGroup->group_id] = true;
+        };
+
+    }
 
     public function render()
     {
 
-        $entities = Entity::all();
-        $grouplist = Group::all();
-        $entityGroups = EntityGroup::all();
-
-        // dd($grouplist->count() );
-
-        $cats = Group::orderBy('position')->paginate(10);
-        $links = $cats->links();
-        // $this->groups = collect($cats->items());
-
-        // $this->active = $this->groups->mapWithKeys(
-        //     fn ($item) => [$item['id'] => (bool) $item['is_active']]
-        // )->toArray();
-
-        // dd($grouplist);
-
-        // dd(compact('grouplist'));
-
-        // return view('livewire.entity-group-list', compact('grouplist') );
-
         return view('livewire.entity-group-list', [
-            'links' => $links,  'entities' => $entities,  'grouplist' => $grouplist, 'entityGroups' => $entityGroups,
+            'entities' => $this->entities,  'grouplist' => $this->grouplist, 'entityGroups' => $this->entityGroups,  'arr_entity_groups' => $this->arr_entity_groups,
         ]);
+    }
 
-        // return view('livewire.entity-group-list', [
-        //     'links' => $links,  compact('entities'), compact('grouplist'),
-        // ]);
+
+    public function dehydrate()
+    {
+        // dd($this->arr_entity_groups);
     }
 
     public function openModal()
@@ -163,5 +144,58 @@ $data = [
             'group.slug'     => ['nullable', 'string'],
             'group.position' => ['nullable', 'integer'],
         ];
+    }
+
+    public function updatedArrEntityGroups($value)
+    {
+        $arrGroups = [];
+
+        $setOfEntityIds = $this->entities->pluck('id')->toArray();
+        $setOfGroupIds = $this->grouplist->pluck('id')->toArray();
+
+        // $this->arr_entity_groups = array_fill_keys($setOfEntityIds, array_fill_keys($setOfGroupIds, false));
+
+        // dd($this->arr_entity_groups);
+
+        foreach($setOfEntityIds as $singleEntityId) {
+                foreach($setOfGroupIds as $singleGroupId) {
+
+                    if ($this->arr_entity_groups[$singleEntityId][$singleGroupId]) {
+                        array_push($arrGroups, $singleGroupId);
+                    };
+                }
+
+                Log::info('Single Entity ID: '.$singleEntityId);
+                Log::info('Array Group: '. implode(";",$arrGroups) );
+                // dd($singleEntityId);
+
+                // $tempEntity = Entity::find($singleEntityId)->first();
+                $tempEntity = Entity::find($singleEntityId);
+
+                // $tempEntity->groups()->syncWithPivotValues($arrGroups,[]);
+                // $tempEntity->groups()->syncWithPivotValues([1,3,5],[]);
+
+                $tempEntity->groups()->sync($arrGroups);
+                // $tempEntity->groups()->syncWithoutDetaching([1,2]);
+                $arrGroups = [];
+
+        }
+
+        // foreach ($this->entityGroups as $singleEntityGroup) {
+
+        //     // $this->entity = Entity::find($singleEntityGroup);
+
+        //     $tempEntity = Entity::find($singleEntityGroup)->first();
+
+        //     $arrGroups = [];
+
+        //     if ($this->arr_entity_groups[$singleEntityGroup->entity_id][$singleEntityGroup->group_id]) {
+        //         array_push($arrGroups, $singleEntityGroup->group_id);
+        //     };
+
+        //     $tempEntity->groups()->sync($arrGroups);
+
+        // };
+
     }
 }

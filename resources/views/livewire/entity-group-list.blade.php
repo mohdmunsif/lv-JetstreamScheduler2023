@@ -16,7 +16,8 @@
 
                                 <table class="min-w-full divide-y divide-gray-200 w-full">
                                     {{-- {{ dd($grouplist) }} --}}
-                                    {{-- {{ dd($entityGroups) }} --}}
+                                    {{-- {{ dd($arrExample2) }} --}}
+
                                     <thead>
                                         <tr>
                                             <th scope="col" width="50"
@@ -35,6 +36,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
+
                                         @foreach ($entities as $entity)
                                             <tr>
                                                 <td
@@ -44,12 +46,15 @@
                                                 @foreach ($grouplist as $group)
                                                     <td class="px-1 py-1 whitespace-nowrap text-sm text-gray-900">
                                                         <input class="form-checkbox text-green-600  cursor-pointer"
-                                                            wire:model="entitygroup.{{ $entity->id }}.{{ $group->id }}"
-                                                            name="entitygroup.{{ $entity->id }}.{{ $group->id }}"
+                                                            wire:model="arr_entity_groups.{{ $entity->id }}.{{ $group->id }}"
+                                                            name="arr_entity_groups.{{ $entity->id }}.{{ $group->id }}"
                                                             type="checkbox" value="{{ $group->group_id }}"
                                                             id="{{ $group->descr }}"
-                                                            @isset($entity) @if (in_array($group->id, $entity?->groups?->pluck('id')?->toArray())) checked @endif @endisset>
+                                                            @isset($arr_entity_groups[$entity->id][$group->id]) @if ($arr_entity_groups[$entity->id][$group->id] == 'true') checked @endif @endisset>
+
                                                     </td>
+                                                    {{-- {{ $entity->id . $group->id }} --}}
+                                                    {{-- {{ var_dump($arrExample2[$entity->id][$group->id]) }} --}}
                                                     {{-- <td class="px-1 py-1 whitespace-nowrap text-sm text-gray-900">
                                                         <input class="form-checkbox text-green-600  cursor-pointer"
                                                             name="groups[]" type="checkbox"
@@ -57,6 +62,7 @@
                                                             @isset($entity) @if (in_array($group->id, $entity?->groups?->pluck('id')?->toArray())) checked @endif @endisset>
                                                     </td> --}}
                                                 @endforeach
+
 
                                                 <td
                                                     class="px-2 py-0.5 whitespace-nowrap text-sm font-medium text-center">
@@ -81,6 +87,9 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @json($arr_entity_groups)
+                                        {{-- @json_decode($arrExample2) --}}
+                                        {{-- {{ var_dump($arrExample2) }} --}}
                                     </tbody>
                                 </table>
 
@@ -206,7 +215,6 @@
                         </table>
                     </div>
 
-                    {!! $links !!}
 
                 </div>
             </div>

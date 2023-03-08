@@ -44,13 +44,19 @@ class EntitySeeder extends Seeder
         DB::table('entities')->insert([
             'name' => 'Dr HO two',
            'position' => '5',
-           'slug' => 'ho',
+           'slug' => 'ho-2',
            'is_active' => '1'
         ]);
         DB::table('entities')->insert([
             'name' => 'Dr MO two',
            'position' => '6',
-           'slug' => 'ho',
+           'slug' => 'mo-2',
+           'is_active' => '1'
+        ]);
+        DB::table('entities')->insert([
+            'name' => 'Dr HO three',
+           'position' => '7',
+           'slug' => 'ho-3',
            'is_active' => '1'
         ]);
 

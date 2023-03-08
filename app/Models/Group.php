@@ -36,7 +36,7 @@ class Group extends Model
 
     public function entities()
     {
-        return $this->belongsToMany(Group::class, 'group_users', 'user_id', 'group_id')->withTimestamps();
+        return $this->belongsToMany(Entity::class, 'entity_groups', 'group_id', 'entity_id')->withTimestamps();
     }
 
     public function dayoff()

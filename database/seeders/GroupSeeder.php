@@ -52,5 +52,12 @@ class GroupSeeder extends Seeder
            'slug' => 'ho2',
            'is_active' => '1'
         ]);
+        DB::table('groups')->insert([
+            'name' => 'MO 2',
+           'descr' => 'Sixth',
+           'position' => '6',
+           'slug' => 'mo2',
+           'is_active' => '1'
+        ]);
     }
 }
