@@ -153,10 +153,6 @@ class EntityGroupList extends Component
         $setOfEntityIds = $this->entities->pluck('id')->toArray();
         $setOfGroupIds = $this->grouplist->pluck('id')->toArray();
 
-        // $this->arr_entity_groups = array_fill_keys($setOfEntityIds, array_fill_keys($setOfGroupIds, false));
-
-        // dd($this->arr_entity_groups);
-
         foreach($setOfEntityIds as $singleEntityId) {
                 foreach($setOfGroupIds as $singleGroupId) {
 
@@ -165,37 +161,12 @@ class EntityGroupList extends Component
                     };
                 }
 
-                Log::info('Single Entity ID: '.$singleEntityId);
-                Log::info('Array Group: '. implode(";",$arrGroups) );
-                // dd($singleEntityId);
-
-                // $tempEntity = Entity::find($singleEntityId)->first();
                 $tempEntity = Entity::find($singleEntityId);
-
-                // $tempEntity->groups()->syncWithPivotValues($arrGroups,[]);
-                // $tempEntity->groups()->syncWithPivotValues([1,3,5],[]);
-
                 $tempEntity->groups()->sync($arrGroups);
-                // $tempEntity->groups()->syncWithoutDetaching([1,2]);
                 $arrGroups = [];
 
         }
 
-        // foreach ($this->entityGroups as $singleEntityGroup) {
-
-        //     // $this->entity = Entity::find($singleEntityGroup);
-
-        //     $tempEntity = Entity::find($singleEntityGroup)->first();
-
-        //     $arrGroups = [];
-
-        //     if ($this->arr_entity_groups[$singleEntityGroup->entity_id][$singleEntityGroup->group_id]) {
-        //         array_push($arrGroups, $singleEntityGroup->group_id);
-        //     };
-
-        //     $tempEntity->groups()->sync($arrGroups);
-
-        // };
 
     }
 }
